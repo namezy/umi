@@ -1,8 +1,8 @@
 import { loginRules } from '@/utils/rules'
 import { CodeSandboxOutlined, MobileOutlined } from '@ant-design/icons'
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, message } from 'antd'
 import { useEffect, useRef, useState } from 'react'
-
+import { getMobileCode, checkMobileCode } from '@/service'
 const MobileCodeLogin = ({ form }) => {
   const [disabled, setDisabled] = useState(true)
   const [status, setStatus] = useState(true) //true:未发送验证码 false:已发送验证码
@@ -16,10 +16,15 @@ const MobileCodeLogin = ({ form }) => {
       setDisabled(true)
     }
   }
-  const sendCode = () => {
+  const sendCode = async () => {
     setDisabled(true)
     setStatus(false)
     runtime()
+    const mobile = form.getFieldValue('mobile')
+    const { data, msg } = await getMobileCode({ mobile })
+    if (!data && msg) {
+      message.error(msg)
+    }
   }
   const runtime = () => {
     if (timerRef.current) clearInterval(timerRef.current)

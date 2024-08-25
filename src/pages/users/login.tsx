@@ -5,20 +5,20 @@ import { Button, Col, Form, Row } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import loginImg from '@/assets/img/logo.svg'
 import './login.less'
-import { useDispatch, useSelector } from 'umi'
+import { useDispatch, useNavigate, useSelector } from 'umi'
 const Login = () => {
   const [form] = Form.useForm()
   const [loginType, setLoginType] = React.useState(0) //0:账号密码登录 1:手机验证码登录
   const dispatch = useDispatch()
   const { effects } = useSelector((state: any) => state.loading)
   const submitHandle = data => {
-    console.log(data)
     dispatch({ type: 'user/login', payload: { ...data, type: loginType } })
   }
   const ComputedComponent = loginType === 0 ? AccountLogin : MobileCodeLogin
   const toggleLoginType = () => {
     setLoginType(loginType === 0 ? 1 : 0)
   }
+  const navigate = useNavigate()
   return (
     <div className="login-comp">
       <div className="login-comp_header">
@@ -33,7 +33,9 @@ const Login = () => {
           </Button>
         </Row>
         <Row className="login-comp_footer" justify="space-between">
-          <Col className="left">忘记密码？</Col>
+          <Col className="left" onClick={() => navigate('/users/forgetPassword')}>
+            忘记密码？
+          </Col>
           <Col className="right" onClick={toggleLoginType}>
             {loginType === 0 ? '使用手机号码进行登录' : '使用用户名密码进行登录'}
             <ArrowRightOutlined />

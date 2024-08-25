@@ -21,6 +21,22 @@ export const loginRules = {
       message: '密码长度为4-20个字符',
     },
   ],
+  confirmPassword(form) {
+    return [
+      {
+        validator(_, value: string) {
+          if (!value) {
+            return Promise.reject('请输入确认密码')
+          }
+          const password = form.getFieldValue('password')
+          if (password !== value) {
+            return Promise.reject('两次密码输入不一致')
+          }
+          return Promise.resolve()
+        },
+      },
+    ]
+  },
   mobile: [
     {
       validator(_, value: string) {

@@ -11,7 +11,6 @@ const checkIntStatus = (response: any) => {
 //判断返回结果状态
 const checkResStatus = async (response: any) => {
   const res = await response.clone().json()
-  console.log(res)
   if (res.code !== 0) {
     if (res.msg) message.error(res.msg)
   }
@@ -63,18 +62,16 @@ class Http {
     return Http.fetch(url, options)
   }
   get(url: string, options = {}) {
-    options = Object.assign(options, { method: 'GET' })
     if (Object.keys(options).length > 0) {
       url = `${url}?${qs.stringify(options)}`
     }
-    return Http.fetch(url, options)
+    return Http.fetch(url, Object.assign(options, { method: 'GET' }))
   }
   del(url: string, options = {}) {
-    options = Object.assign(options, { method: 'DELETE' })
     if (Object.keys(options).length > 0) {
       url = `${url}?${qs.stringify(options)}`
     }
-    return Http.fetch(url, options)
+    return Http.fetch(url, Object.assign(options, { method: 'DELETE' }))
   }
 }
 

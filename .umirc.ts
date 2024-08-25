@@ -9,9 +9,9 @@ export default defineConfig({
   dva: {},
   proxy: {
     '/api': {
-      target: 'http://127.0.0.1:7001',
-      changeOrigin: true,
-    },
+      target: 'http://127.0.0.1:7002',
+      changeOrigin: true
+    }
   },
-  plugins: ['@umijs/plugins/dist/dva'],
+  plugins: ['@umijs/plugins/dist/dva']
 })
