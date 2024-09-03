@@ -2,21 +2,28 @@ import { queryUserLogin, getUserRouteList } from '@/service'
 import { message } from 'antd'
 export default {
   namespace: 'common',
-  state: {},
+  state: {
+    collapse: false
+  },
   subscriptions: {
     setup({ dispatch, history }) {
       //app.start阶段执行
       //查询用户是否登录
       dispatch({ type: 'queryUserLogin', payload: { history } })
-    },
+    }
+  },
+  reducers: {
+    changeCollapse(state) {
+      return { ...state, collapse: !state.collapse }
+    }
   },
   effects: {
     *queryUserLogin({ payload }, { call }) {
       const {
         history,
         history: {
-          location: { pathname },
-        },
+          location: { pathname }
+        }
       } = payload
       if (pathname !== '/users/login' && pathname !== 'users/forgetPassword') {
         //需要验证用户登录状态
@@ -40,6 +47,6 @@ export default {
       } else {
         sessionStorage.clear()
       }
-    },
-  },
+    }
+  }
 }

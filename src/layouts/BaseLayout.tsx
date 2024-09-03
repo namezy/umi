@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Outlet, history, useSelector } from 'umi'
+import { Outlet, history, useDispatch, useSelector } from 'umi'
 import { Layout } from 'antd'
 import './BaseLayout.less'
 import SideBar from '@/components/SideBar'
@@ -9,10 +9,12 @@ import Loading from '@/components/Loading'
 const { Content } = Layout
 
 const BaseLayout = () => {
-  const [collapse, setCollapse] = useState(false)
-  const changeCollapse = () => setCollapse(!collapse)
+  const dispatch = useDispatch()
+  const { collapse } = useSelector(state => state.common)
+  const changeCollapse = () => dispatch({ type: 'common/changeCollapse' })
+
   const {
-    location: { pathname },
+    location: { pathname }
   } = history
   const { effects } = useSelector(state => state.loading)
   const routeList = sessionStorage.getItem('routeList') ? JSON.parse(sessionStorage.getItem('routeList')) : []
