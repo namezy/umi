@@ -10,3 +10,5 @@ export const actionCreateStaff = async (param: Record<string, any>) => ajax.post
 export const actionUpdateStaff = async (param: Record<string, any>) => ajax.put('/updateStaff', param)
 //删除
 export const actionDelateStaffs = async (ids: string[]) => ajax.post('/destroyStaff', ids)
+//- 检测员工用户名或者是手机号码是否已经存在
+export const checkIsExists = params => ajax.post('/checkIsExists', params)

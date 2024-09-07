@@ -1,43 +1,63 @@
-import { formatAge, formatDate } from '@/utils/format'
-import { Tag } from 'antd'
+import { formatBirth, formatDate, formatAge } from '@/utils/format'
+import { Image, Tag } from 'antd'
+import { useMemo } from 'react'
 import { useSelector } from 'umi'
-
-const useColumns = () => {
+import defaultAvatar from '@/assets/img/default_avatar.png'
+import { mapData } from '@/utils/mapData'
+import { FormOutlined } from '@ant-design/icons'
+const useColumns = ({ handleSave, openDialog, openDetailDialog }) => {
   const { userInfo } = useSelector(state => state.user)
-  const { staffList } = useSelector(state => state.staff)
   const normalList = [
     {
       title: '姓名',
       dataIndex: 'userName',
+      key: 'userName',
       editable: true,
-      width: 200
+      render: (userName, data) => {
+        return (
+          <>
+            <span>{userName}</span>
+            {userInfo.identity == 1 && (
+              <FormOutlined
+                onClick={e => {
+                  e.stopPropagation()
+                  openDetailDialog(data._id)
+                }}
+              />
+            )}
+          </>
+        )
+      }
     },
     {
       title: '联系电话',
       dataIndex: 'mobile',
-      editable: true,
-      width: 200
+      key: 'mobile',
+      editable: true
     },
     {
       title: '职级描述',
       dataIndex: 'level',
+      key: 'level',
       render: data => data?.levelDescription || ''
     },
     {
       title: '性别',
       dataIndex: 'gender',
+      key: 'gender',
       editable: true,
-      width: 200,
-      render: val => <Tag>{val == 1 ? '男' : '女'}</Tag>
+      render: val => <Tag>{mapData['gender'][val]}</Tag>
     },
     {
       title: '部门',
       dataIndex: 'department',
+      key: 'department',
       render: data => data?.departmentName || ''
     },
     {
       title: '部门负责人',
       dataIndex: 'department',
+      key: 'head',
       render: data => data?.departmentLeader?.userName || ''
     }
   ]
@@ -45,160 +65,173 @@ const useColumns = () => {
     {
       title: '入职时间',
       dataIndex: 'onboardingTime',
+      key: 'onboardingTime',
+      editable: true,
       render: val => formatDate(val)
     },
     {
       title: '年龄',
       dataIndex: 'idNumber',
+      key: 'age',
       render: val => formatAge(val)
+    },
+    {
+      title: '头像',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: val => <Image src={val || 'error'} fallback={defaultAvatar} />
+    },
+    {
+      title: '籍贯',
+      dataIndex: 'hometown',
+      key: 'hometown',
+      editable: true
+    },
+    {
+      title: '学历',
+      editable: true,
+      dataIndex: 'education',
+      key: 'education',
+      render: val => <Tag>{mapData['education'][val]}</Tag>
+    },
+    {
+      title: '婚姻状况',
+      editable: true,
+      dataIndex: 'marriage',
+      key: 'marriage',
+      render: val => <Tag> {mapData['marriage'][val]}</Tag>
+    },
+    {
+      title: '生日',
+      dataIndex: 'idNumber',
+      key: 'birthday',
+      render: id => formatBirth(id)
+    },
+    {
+      title: '银行卡',
+      dataIndex: 'bankNumber',
+      key: 'bankNumber',
+      editable: true
+    },
+    {
+      title: '身份证号',
+      editable: true,
+      dataIndex: 'idNumber',
+      key: 'idNumber'
+    },
+    {
+      title: '毕业院校',
+      editable: true,
+      dataIndex: 'graduatedSchool',
+      key: 'graduatedSchool'
+    },
+    {
+      title: '绩效考核',
+      key: 'assessment',
+      render: (record, data) => {
+        return (
+          <Tag
+            onClick={() => {
+              openDialog({
+                title: '考核记录',
+                type: 'assessment',
+                interface: 'getAssessmentList',
+                requestData: {
+                  size: 5,
+                  queryData: {}
+                }
+              })
+            }}
+          >
+            查看
+          </Tag>
+        )
+      }
+    },
+    {
+      title: '奖罚记录',
+      key: 'reward',
+      render: (record, data) => {
+        return (
+          <Tag
+            onClick={() => {
+              openDialog({
+                title: '奖罚记录',
+                type: 'reward',
+                interface: 'getRewardAndPunishment',
+                requestData: {
+                  // staffName: data._id
+                  size: 5
+                }
+              })
+            }}
+          >
+            查看
+          </Tag>
+        )
+      }
+    },
+    {
+      title: '调薪记录',
+      key: 'salary',
+      render: (record, data) => {
+        return (
+          <Tag
+            onClick={() => {
+              openDialog({
+                title: '调薪记录',
+                type: 'salary',
+                interface: 'getSalaryAdjustment',
+                requestData: {
+                  // staffName: data._id
+                  size: 5
+                }
+              })
+            }}
+          >
+            查看
+          </Tag>
+        )
+      }
     }
   ]
-  //   const normalList = [
-  //     {
-  //       title: '性别',
-  //       dataIndex: 'gender',
-  //       editable: true,
-  //       render: type => <Tag>{mapData.gender[type]}</Tag>
-  //     },
-  //     {
-  //       title: '部门',
-  //       dataIndex: 'department',
-  //       render: data => data?.departmentName || '---'
-  //     },
-  //     {
-  //       title: '部门负责人',
-  //       dataIndex: 'department',
-  //       render: data => data?.departmentLeader?.userName || '---'
-  //     }
-  //   ]
-  //   //- 只有管理员可以进行渲染展示
-  //   const authList = [
-  //     {
-  //       title: '入职时间',
-  //       dataIndex: 'onboardingTime',
-  //       editable: true,
-  //       render: date => formatDate(date, 'YYYY-MM-DD')
-  //     },
-  //     {
-  //       title: '年龄',
-  //       dataIndex: 'idNumber',
-  //       render: idNumber => formatYear(idNumber, 'age')
-  //     },
-  //     {
-  //       title: '头像',
-  //       dataIndex: 'avatar',
-  //       render: img => <Image src={img || 'error'} fallback={loadErrorImg} />
-  //     },
-  //     {
-  //       title: '籍贯',
-  //       editable: true,
-  //       dataIndex: 'hometown',
-  //       render: hometown => hometown || '---'
-  //     },
-  //     {
-  //       title: '学历',
-  //       editable: true,
-  //       dataIndex: 'education',
-  //       render: type => <Tag> {mapData['education'][type]}</Tag>
-  //     },
-  //     {
-  //       title: '婚姻状况',
-  //       editable: true,
-  //       dataIndex: 'marriage',
-  //       render: type => <Tag> {mapData['marriage'][type]}</Tag>
-  //     },
-  //     {
-  //       title: '生日',
-  //       dataIndex: 'idNumber',
-  //       render: id => formatBirth(id)
-  //     },
-  //     {
-  //       title: '银行卡',
-  //       dataIndex: 'bankNumber',
-  //       editable: true
-  //     },
-  //     {
-  //       title: '身份证号',
-  //       editable: true,
-  //       dataIndex: 'idNumber'
-  //     },
-  //     {
-  //       title: '毕业院校',
-  //       editable: true,
-  //       dataIndex: 'graduatedSchool'
-  //     },
-  //     {
-  //       title: '绩效考核',
-  //       dataIndex: 'record',
-  //       render: (record, data) => {
-  //         return (
-  //           <Tag
-  //             onClick={() =>
-  //               openReviewRecord({
-  //                 title: '考核记录',
-  //                 interfaceName: 'getAssessmentList',
-  //                 requestData: {
-  //                   queryData: { staffName: data._id }
-  //                 },
-  //                 type: 'assessment'
-  //               })
-  //             }
-  //             className="c-p"
-  //           >
-  //             查看
-  //           </Tag>
-  //         )
-  //       }
-  //     },
-  //     {
-  //       title: '奖惩记录',
-  //       dataIndex: 'record',
-  //       render: (record, data) => {
-  //         return (
-  //           <Tag
-  //             onClick={() =>
-  //               openReviewRecord({
-  //                 title: '奖惩记录',
-  //                 interfaceName: 'getRewardAndPunishment',
-  //                 requestData: {
-  //                   staffName: data._id
-  //                 },
-  //                 type: 'reward'
-  //               })
-  //             }
-  //             className="c-p"
-  //           >
-  //             查看
-  //           </Tag>
-  //         )
-  //       }
-  //     },
-  //     {
-  //       title: '调薪记录',
-  //       dataIndex: 'record',
-  //       render: (record, data) => {
-  //         return (
-  //           <Tag
-  //             onClick={() =>
-  //               openReviewRecord({
-  //                 title: '调薪记录',
-  //                 interfaceName: 'getSalaryAdjustment',
-  //                 requestData: {
-  //                   staffName: data._id
-  //                 },
-  //                 type: 'salary'
-  //               })
-  //             }
-  //             className="c-p"
-  //           >
-  //             查看
-  //           </Tag>
-  //         )
-  //       }
-  //     }
-  //   ]
+  const columns = useMemo(() => {
+    const defaultColumns = userInfo.identity == 0 ? normalList : normalList.concat(authList)
+    return defaultColumns.map(col => {
+      if (!col.editable) {
+        return col
+      }
+      let type = ''
+      switch (col.dataIndex) {
+        case 'onboardingTime':
+          type = 'date'
+          break
+        case 'gender':
+        case 'education':
+        case 'marriage':
+          type = 'select'
+          break
+        default:
+          type = 'input'
+          break
+      }
+      return {
+        ...col,
+        onCell: record => {
+          return {
+            record,
+            editable: col.editable,
+            dataIndex: col.dataIndex,
+            title: col.title,
+            type,
+            handleSave
+          }
+        }
+      }
+    })
+  }, [userInfo, handleSave])
 
-  //   let renderColumnsList = userInfo.identity === 0 ? normalList : [...normalList, ...authList]
+  return columns
 }
 
 export default useColumns

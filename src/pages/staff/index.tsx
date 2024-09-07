@@ -12,17 +12,25 @@ const Staff = () => {
   useEffect(() => {
     dispatch({
       type: 'staff/requestStaffList',
-      payload: { size: 10, page }
+      payload: { size: 30, page }
     })
   }, [])
   const changePage = (page: number) => {
     setPage(page)
+    dispatch({
+      type: 'staff/requestStaffList',
+      payload: { size: 10, page }
+    })
   }
+  const updateStaffList = obj => {
+    dispatch({ type: 'staff/updateStaffList', payload: obj })
+  }
+
   return (
     <div className="staff-comp main-comp">
       <TableHeader page={page} size={10} total={staffTotal} changePage={changePage} />
       <Search render={() => <FilterForm />} />
-      <TableList />
+      <TableList staffList={staffList} updateStaffList={updateStaffList} />
     </div>
   )
 }
