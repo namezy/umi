@@ -33,6 +33,7 @@ const TableList = ({ staffList, updateStaffList }) => {
   const openDetailDialog = (id: string) => {
     console.log(id)
     dispatch({ type: 'staff/requestStaffDetail', payload: { id } })
+    dispatch({ type: 'common/changeDrawerVisible', payload: { drawerVisible: true } })
   }
   const columns = useColumns({ handleSave, openDialog, openDetailDialog })
 

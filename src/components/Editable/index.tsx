@@ -47,6 +47,9 @@ export const EditableCell = ({ title, editable, children, dataIndex, record, han
       setEditing(false)
     }
   }
+  const blurHandle = () => {
+    console.log('blur')
+  }
   const editNode = useMemo(() => {
     let node = null
     switch (type) {
@@ -57,7 +60,7 @@ export const EditableCell = ({ title, editable, children, dataIndex, record, han
             value: index
           }
         })
-        node = <Select ref={inputRef} options={options} onChange={checkHandle}></Select>
+        node = <Select ref={inputRef} options={options} onChange={checkHandle} onBlur={checkHandle}></Select>
         break
       case 'date':
         node = <DatePicker ref={inputRef} onChange={checkHandle}></DatePicker>

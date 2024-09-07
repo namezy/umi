@@ -3,7 +3,8 @@ import { message } from 'antd'
 export default {
   namespace: 'common',
   state: {
-    collapse: false
+    collapse: false,
+    drawerVisible: false
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -15,6 +16,9 @@ export default {
   reducers: {
     changeCollapse(state) {
       return { ...state, collapse: !state.collapse }
+    },
+    changeDrawerVisible(state) {
+      return { ...state, drawerVisible: !state.drawerVisible }
     }
   },
   effects: {
