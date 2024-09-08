@@ -4,7 +4,9 @@ export default {
   namespace: 'common',
   state: {
     collapse: false,
-    drawerVisible: false
+    drawerVisible: false,
+    isResetParam: false, //是否重置查询参数
+    deleteIds: [] //要删除的数组
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -19,6 +21,12 @@ export default {
     },
     changeDrawerVisible(state) {
       return { ...state, drawerVisible: !state.drawerVisible }
+    },
+    changeIsResetParam(state, { payload }) {
+      return { ...state, ...payload }
+    },
+    setDeleteIds(state, { payload }) {
+      return { ...state, ...payload }
     }
   },
   effects: {

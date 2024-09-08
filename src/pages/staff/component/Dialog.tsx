@@ -1,10 +1,9 @@
 import { Modal, Table } from 'antd'
-import DetailTable from './DetailTable'
 
-const Dialog = ({ visible, setVisible, width = 600, cellData }) => {
+const Dialog = ({ visible, setVisible, width = 600, children, title }) => {
   return (
-    <Modal title={cellData?.title} open={visible} footer={null} destroyOnClose centered width={width} onCancel={() => setVisible(false)}>
-      <DetailTable cellData={cellData} />
+    <Modal title={title} open={visible} footer={null} destroyOnClose centered width={width} onCancel={() => setVisible(false)}>
+      {children}
     </Modal>
   )
 }

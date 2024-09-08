@@ -2,8 +2,6 @@ import React from 'react'
 import { formatDate } from '@/utils/format'
 import ReactEChart from 'echarts-for-react'
 const ViolationChart = ({ title, renderList }) => {
-  console.log(title)
-  console.log(renderList)
   const xData = renderList.xData.map(item => formatDate(item))
 
   const option = {

@@ -4,6 +4,16 @@ export const staffRule = {
     { max: 5, message: '姓名长度不正确' },
     { min: 2, message: '姓名长度不正确' }
   ],
+  accountName: [
+    { required: true, message: '账户名不能为空' },
+    { max: 16, message: '账户名长度不正确' },
+    { min: 4, message: '账户名长度不正确' }
+  ],
+  password: [
+    { required: true, message: '密码不能为空' },
+    { max: 16, message: '密码长度不正确' },
+    { min: 4, message: '密码长度不正确' }
+  ],
   mobile: [
     {
       validator: (rule, val) => {
@@ -32,19 +42,16 @@ export const staffRule = {
   onboardingTime: [{ type: 'object', required: true, message: '入职时间不能为空' }],
   gender: [{ required: true, message: '性别不能为空' }],
   idNumber: [
+    { required: true, message: '' },
     {
       validator(_, value) {
         switch (true) {
           case !Boolean(value):
-            Promise.reject('身份证号码不能为空')
-            break
-          case value.length != 15:
-          case value.length != 18:
-            Promise.reject('身份证长度不正确')
-            break
+            return Promise.reject('身份证号码不能为空')
+          case value.length != 15 && value.length != 18:
+            return Promise.reject('身份证长度不正确')
           default:
-            Promise.resolve()
-            break
+            return Promise.resolve()
         }
       }
     }
@@ -56,8 +63,10 @@ export const staffRule = {
   ],
   department: [{ required: true, message: '部门不能为空' }],
   level: [{ required: true, message: '职级不能为空' }],
+  departmentName: [{ required: true, message: '部门不能为空' }],
+  levelName: [{ required: true, message: '职级不能为空' }],
   education: [{ required: true, message: '学历不能为空' }],
   marriage: [{ required: true, message: '婚姻不能为空' }],
   graduatedSchool: [{ required: true, message: '毕业院校不能为空' }],
-  avatar: [{ required: true, message: '员工照片能为空' }]
+  avatar: [{ required: false, message: '员工照片能为空' }]
 }

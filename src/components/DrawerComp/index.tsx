@@ -44,7 +44,6 @@ const DrawerComp = ({ title, children, placement = 'right', width = 600, reloadL
   }, [id])
   return (
     <Drawer width={width} title={titleNode} open={drawerVisible} placement={placement} destroyOnClose closeIcon={null} extra={extraNode}>
-      <h2>drawer</h2>
       {children}
     </Drawer>
   )

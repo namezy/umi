@@ -5,6 +5,7 @@ import useColumns from '../hooks/useColumns'
 import { useDispatch, useSelector } from 'umi'
 import Dialog from './Dialog'
 import { checkIsExists, actionUpdateStaff } from '@/service'
+import DetailTable from './DetailTable'
 const TableList = ({ staffList, updateStaffList }) => {
   const dispatch = useDispatch()
   const { effects } = useSelector(state => state.loading)
@@ -31,16 +32,18 @@ const TableList = ({ staffList, updateStaffList }) => {
     setVisible(true)
   }
   const openDetailDialog = (id: string) => {
-    console.log(id)
     dispatch({ type: 'staff/requestStaffDetail', payload: { id } })
-    dispatch({ type: 'common/changeDrawerVisible', payload: { drawerVisible: true } })
   }
   const columns = useColumns({ handleSave, openDialog, openDetailDialog })
-
+  const selectHandle = val => {
+    dispatch({ type: 'common/setDeleteIds', payload: { deleteIds: val } })
+  }
   return (
     <>
-      <Table loading={effects['staff/requestStaffList']} rowKey={row => row._id} className="staff-table-comp" components={components} pagination={false} rowClassName={() => 'editable-row'} bordered dataSource={staffList} columns={columns} />
-      <Dialog visible={visible} setVisible={setVisible} cellData={cellData} />
+      <Table rowSelection={{ onChange: selectHandle }} loading={effects['staff/requestStaffList']} rowKey={row => row._id} className="staff-table-comp" components={components} pagination={false} rowClassName={() => 'editable-row'} bordered dataSource={staffList} columns={columns} />
+      <Dialog visible={visible} setVisible={setVisible} title={cellData?.title}>
+        <DetailTable cellData={cellData} />
+      </Dialog>
     </>
   )
 }
