@@ -42,15 +42,12 @@ export default {
       }
     },
     updateStaffParam(state, { payload }) {
-      console.log(payload)
       return { ...state, staffParam: { ...state.staffParam, ...payload } }
     }
   },
   effects: {
     *requestStaffList({ payload = {} }, { put, call, select }) {
       const staffParam = yield select(state => state.staff.staffParam)
-      console.log('======')
-      console.log(staffParam)
       payload = { ...staffParam, ...payload }
       Object.keys(payload.queryData).forEach(key => {
         if (!payload.queryData[key]) {

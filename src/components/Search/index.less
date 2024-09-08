@@ -6,12 +6,28 @@
   padding: 10px 20px;
   position: relative;
   transition: 0.2s;
+  .search-comp-header,
+  .ant-form {
+    transition: 0.2s;
+  }
+  &.close {
+    width: 0;
+    padding: 0 7px;
+    .search-comp-header,
+    .ant-form {
+      opacity: 0;
+      width: 0;
+    }
+  }
 }
 .search-comp-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 10px 0 20px;
+  span {
+    white-space: nowrap;
+  }
 }
 
 .search-comp .close-tip {

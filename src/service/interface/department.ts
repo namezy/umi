@@ -12,3 +12,6 @@ export const getDepartmentList = async param => {
   param = { ...param, ...queryData }
   return ajax.get('/department', param)
 }
+
+//获取部门详情
+export const getDepartmentDetail = async id => ajax.get(`/department/${id}`)
