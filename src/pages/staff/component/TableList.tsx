@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { EditableCell, EditableRow } from '@/components/Editable'
 import useColumns from '../hooks/useColumns'
 import { useDispatch, useSelector } from 'umi'
-import Dialog from './Dialog'
+import Dialog from '@/components/Dialog'
 import { checkIsExists, actionUpdateStaff } from '@/service'
 import DetailTable from './DetailTable'
 const TableList = ({ staffList, updateStaffList }) => {

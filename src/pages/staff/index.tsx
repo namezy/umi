@@ -7,7 +7,7 @@ import TableList from './component/TableList'
 import './index.less'
 import DrawerComp from '@/components/DrawerComp'
 import DetailForm from './component/DetailForm'
-import Dialog from './component/Dialog'
+import Dialog from '@/components/Dialog'
 import AddStaffForm from './component/AddStaffForm'
 const Staff = () => {
   const dispatch = useDispatch()
